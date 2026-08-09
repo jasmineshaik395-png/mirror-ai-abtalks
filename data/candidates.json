@@ -1,0 +1,36 @@
+[
+  {
+    "id": "cand-001",
+    "name": "Aditi Rao",
+    "completedDays": [3, 6, 9, 14, 19, 21, 23, 26],
+    "skippedDays": [17, 28],
+    "attempts": [
+      { "dayId": 14, "attemptCount": 1, "confidenceSignal": "low" },
+      { "dayId": 9, "attemptCount": 2, "confidenceSignal": "medium" },
+      { "dayId": 19, "attemptCount": 1, "confidenceSignal": "low" },
+      { "dayId": 23, "attemptCount": 3, "confidenceSignal": "high" }
+    ]
+  },
+  {
+    "id": "cand-002",
+    "name": "Rohan Mehta",
+    "completedDays": [3, 6, 14, 17, 19, 21, 26, 28],
+    "skippedDays": [9, 23],
+    "attempts": [
+      { "dayId": 19, "attemptCount": 3, "confidenceSignal": "high" },
+      { "dayId": 6, "attemptCount": 1, "confidenceSignal": "low" },
+      { "dayId": 28, "attemptCount": 1, "confidenceSignal": "medium" }
+    ]
+  },
+  {
+    "id": "cand-003",
+    "name": "Sneha Kulkarni",
+    "completedDays": [3, 9, 14, 17, 23, 26, 28],
+    "skippedDays": [6, 19, 21],
+    "attempts": [
+      { "dayId": 14, "attemptCount": 2, "confidenceSignal": "medium" },
+      { "dayId": 23, "attemptCount": 1, "confidenceSignal": "low" },
+      { "dayId": 28, "attemptCount": 2, "confidenceSignal": "medium" }
+    ]
+  }
+]
