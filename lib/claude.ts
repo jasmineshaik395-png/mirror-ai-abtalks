@@ -1,8 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { CandidateProfile, CurriculumDay, TranscriptTurn } from "./types";
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
+let anthropic: Anthropic | null = null;
+function getClient() {
+  if (!anthropic) {
+    anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  }
+  return anthropic;
+}
 const MODEL = "claude-sonnet-4-6";
 
 // ---------- INTERVIEW AGENT ----------
