@@ -1,0 +1,12 @@
+[
+  { "dayId": 3, "module": "Foundations", "topic": "Prompt Engineering", "learningObjectives": ["Zero-shot vs few-shot prompting", "System prompt design"], "toolsUsed": ["Claude API"] },
+  { "dayId": 6, "module": "RAG", "topic": "Chunking Strategies", "learningObjectives": ["Fixed vs semantic chunking", "Overlap tuning"], "toolsUsed": ["LangChain"] },
+  { "dayId": 9, "module": "RAG", "topic": "Hybrid Search", "learningObjectives": ["Combining BM25 with vector similarity", "Re-ranking"], "toolsUsed": ["Elasticsearch", "pgvector"] },
+  { "dayId": 14, "module": "Vector Databases", "topic": "Vector DB Indexing", "learningObjectives": ["HNSW vs IVF", "Approximate vs exact nearest neighbor"], "toolsUsed": ["Pinecone", "pgvector"] },
+  { "dayId": 17, "module": "Vector Databases", "topic": "Embedding Drift", "learningObjectives": ["Re-indexing strategy", "Stale embedding detection"], "toolsUsed": ["Pinecone"] },
+  { "dayId": 19, "module": "Agentic AI", "topic": "Agentic AI Failure Modes", "learningObjectives": ["Reason-act-observe loop", "Error recovery and loop prevention"], "toolsUsed": ["LangGraph"] },
+  { "dayId": 21, "module": "Agentic AI", "topic": "Tool Use & Orchestration", "learningObjectives": ["Tool selection", "Multi-step planning"], "toolsUsed": ["Claude API", "LangGraph"] },
+  { "dayId": 23, "module": "MCP", "topic": "Model Context Protocol", "learningObjectives": ["Standardized tool discovery", "Client-server architecture for AI tools"], "toolsUsed": ["MCP SDK"] },
+  { "dayId": 26, "module": "Deployment", "topic": "AI API Design", "learningObjectives": ["Rate limiting", "Streaming responses"], "toolsUsed": ["Next.js", "FastAPI"] },
+  { "dayId": 28, "module": "Deployment", "topic": "Production AI Systems", "learningObjectives": ["Latency and cost monitoring", "Quality drift detection"], "toolsUsed": ["Datadog", "LangSmith"] }
+]
