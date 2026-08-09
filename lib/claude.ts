@@ -8,6 +8,7 @@ function getClient() {
   }
   return anthropic;
 }
+
 const MODEL = "claude-sonnet-4-6";
 
 // ---------- INTERVIEW AGENT ----------
@@ -67,13 +68,12 @@ export async function getNextQuestion(
     content: t.content,
   }));
 
-  // Seed the very first turn if transcript is empty
   const finalMessages =
     messages.length === 0
       ? [{ role: "user" as const, content: "Begin the interview with your first question." }]
       : messages;
 
-  const response = await anthropic.messages.create({
+  const response = await getClient().messages.create({
     model: MODEL,
     max_tokens: 300,
     system: systemPrompt,
@@ -83,7 +83,6 @@ export async function getNextQuestion(
   const block = response.content.find((c) => c.type === "text");
   let question = block && "text" in block ? block.text.trim() : "Can you walk me through your reasoning there?";
 
-  // Guard: if Claude returns multiple questions, keep only the first.
   const splitOnDoubleNewline = question.split(/\n\n+/)[0];
   question = splitOnDoubleNewline.trim();
 
@@ -146,7 +145,7 @@ export async function runMirrorAnalysis(
     .join("\n\n");
 
   const call = () =>
-    anthropic.messages.create({
+    getClient().messages.create({
       model: MODEL,
       max_tokens: 2000,
       system: systemPrompt,
@@ -169,10 +168,9 @@ export async function runMirrorAnalysis(
     const response = await call();
     return parseResponse(response);
   } catch (err) {
-    // Retry once with a stricter instruction
     try {
       const retrySystem = systemPrompt + "\n\nIMPORTANT: Return ONLY valid JSON, nothing else.";
-      const response = await anthropic.messages.create({
+      const response = await getClient().messages.create({
         model: MODEL,
         max_tokens: 2000,
         system: retrySystem,
@@ -185,7 +183,6 @@ export async function runMirrorAnalysis(
       });
       return parseResponse(response);
     } catch (retryErr) {
-      // Graceful degraded fallback so the demo never hard-fails
       return {
         session_summary:
           "You showed solid understanding across the interview — a couple of answers could go deeper on trade-offs and edge cases.",
