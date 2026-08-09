@@ -1,109 +1,83 @@
-"use client";
-
-import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { MirrorReport } from "@/lib/types";
-import { MirrorComparison } from "@/components/MirrorComparison";
 import { Button } from "@/components/ui/button";
 
-export default function MirrorPage() {
+export default function LandingPage() {
   return (
-    <Suspense
-      fallback={
-        <main className="mx-auto flex min-h-screen max-w-md items-center justify-center px-6">
-          <div className="h-8 w-8 rounded-full border-2 border-ink-line border-t-insight animate-spin" />
-        </main>
-      }
-    >
-      <MirrorContent />
-    </Suspense>
-  );
-}
+    <main className="mx-auto flex min-h-screen max-w-md flex-col px-6 py-10">
+      <header className="flex items-center justify-between">
+        <span className="font-display text-lg tracking-tight text-paper">Mirror</span>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-paper-dim">
+          AI Cohort · Interview Agent
+        </span>
+      </header>
 
-function MirrorContent() {
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get("sessionId");
-  const [report, setReport] = useState<MirrorReport | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!sessionId) {
-      setError("Missing interview session.");
-      setLoading(false);
-      return;
-    }
-    (async () => {
-      try {
-        const res = await fetch("/api/interview/analyze", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId }),
-        });
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        setReport(data);
-      } catch {
-        setError("Couldn't generate the Mirror report. Try starting a new interview.");
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [sessionId]);
-
-  if (loading) {
-    return (
-      <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-        <div className="h-8 w-8 rounded-full border-2 border-ink-line border-t-insight animate-spin" />
-        <p className="mt-4 text-sm text-paper-dim">
-          Looking back through the interview…
+      <section className="mt-10">
+        <h1 className="font-display text-[2.1rem] leading-[1.15] text-paper">
+          See how you actually sound{" "}
+          <span className="italic text-insight">in an interview.</span>
+        </h1>
+        <p className="mt-4 text-[15px] leading-relaxed text-paper-dim">
+          Most interview tools tell you if you're right. Mirror shows you the
+          gap between what you said and what a senior engineer would have
+          said — using your own words as the starting point.
         </p>
-      </main>
-    );
-  }
+      </section>
 
-  if (error || !report) {
-    return (
-      <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
-        <p className="text-sm text-before">{error ?? "Something went wrong."}</p>
-        <Link href="/interview" className="mt-4">
-          <Button variant="ghost">Start a new interview</Button>
-        </Link>
-      </main>
-    );
-  }
-
-  const hasTransformations = report.transformations.length > 0;
-
-  return (
-    <main className="mx-auto min-h-screen max-w-md px-6 py-10">
-      <p className="font-mono text-[10px] uppercase tracking-widest text-insight-dim">
-        Mirror
-      </p>
-      <h1 className="mt-2 font-display text-2xl leading-snug text-paper">
-        {report.session_summary}
-      </h1>
-
-      {hasTransformations ? (
-        <div className="mt-8 space-y-6">
-          {report.transformations.map((t, i) => (
-            <MirrorComparison key={i} transformation={t} index={i} />
-          ))}
+      <section className="mt-8 rounded-2xl border border-ink-line bg-ink-raised overflow-hidden">
+        <div className="grid grid-cols-1 divide-y divide-ink-line">
+          <div className="p-4">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-before">
+              What you said
+            </p>
+            <p className="mt-1.5 text-sm text-paper-dim">
+              "RAG helps because the model can look up info instead of just
+              knowing it, so it's more accurate."
+            </p>
+          </div>
+          <div className="p-4 bg-insight/[0.04]">
+            <p className="text-[10px] font-mono uppercase tracking-wider text-insight">
+              The sharper version — same idea
+            </p>
+            <p className="mt-1.5 text-sm text-paper">
+              "RAG retrieves relevant context at query time instead of
+              relying only on parametric knowledge. The trade-off: accuracy
+              becomes bounded by retrieval quality — bad chunking means the
+              model reasons confidently over irrelevant context."
+            </p>
+          </div>
         </div>
-      ) : (
-        <p className="mt-8 text-sm text-paper-dim">
-          No detailed transformations were generated for this session — but the
-          summary above still reflects how the interview went.
-        </p>
-      )}
+      </section>
 
-      <div className="mt-10 pb-10">
-        <Link href="/interview">
-          <Button variant="ghost" className="w-full">
-            Run another interview
-          </Button>
+      <p className="mt-3 text-center text-xs text-paper-dim">
+        Same idea. Same voice. Sharper reasoning.
+      </p>
+
+      <section className="mt-10 space-y-4">
+        <div className="flex gap-3">
+          <span className="font-mono text-xs text-insight-dim mt-0.5">01</span>
+          <p className="text-sm text-paper-dim">
+            <span className="text-paper">An adaptive interview</span> — a
+            senior-engineer AI asks questions grounded in your actual
+            curriculum progress, focused where your data shows you're weakest.
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <span className="font-mono text-xs text-insight-dim mt-0.5">02</span>
+          <p className="text-sm text-paper-dim">
+            <span className="text-paper">The Mirror moment</span> — your
+            answers, rewritten stronger, with the exact missing reasoning
+            named and linked back to a curriculum day.
+          </p>
+        </div>
+      </section>
+
+      <div className="mt-auto pt-10">
+        <Link href="/interview" className="block">
+          <Button className="w-full">Start your interview</Button>
         </Link>
+        <p className="mt-3 text-center text-[11px] text-paper-dim">
+          ~8 questions · takes about 10 minutes
+        </p>
       </div>
     </main>
   );
